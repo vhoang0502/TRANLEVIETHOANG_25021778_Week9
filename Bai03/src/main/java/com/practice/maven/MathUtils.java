@@ -8,7 +8,7 @@ public class MathUtils {
 
     public int add(int a, int b) {
         logger.info("Thuc hien phep cong: {} + {}", a, b);
-        return a + b; // Lát nữa chúng ta sẽ cố tình sửa dòng này thành lỗi
+        return a - b; // Lát nữa chúng ta sẽ cố tình sửa dòng này thành lỗi
     }
 
     public int divide(int a, int b) {

@@ -1,34 +1,40 @@
-name: CI/CD Pipeline
+name: CI/CD Bai 03
 
-# Kích hoạt khi có push hoặc pull request vào nhánh main
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    # CHỈ CHẠY khi có file trong thư mục bai03 thay đổi
+    paths:
+      - 'bai03/**'
+      - '.github/workflows/ci-bai03.yml'
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
+    # BẮT BUỘC MAVEN PHẢI CHẠY BÊN TRONG THƯ MỤC bai03
+    defaults:
+      run:
+        working-directory: ./bai03
+
     steps:
-      - name: Kéo mã nguồn về (Checkout code)
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cài đặt môi trường Java 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
 
-      - name: Chạy vòng đời Maven (Test & Package)
+      - name: Run Build and Test
         run: mvn -B clean test package
 
-      - name: Lưu trữ tệp .jar (Upload Artifact)
-        # Chỉ upload nếu bước build maven ở trên thành công
+      - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mathutils-app-jar
-          path: target/*.jar
+          # Đường dẫn tính từ thư mục gốc
+          path: bai03/target/*.jar

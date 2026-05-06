@@ -1,0 +1,38 @@
+name: CI/CD Bai 05
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Bai05/**'
+      - '.github/workflows/ci-bai05.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bai05
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # CHÚ Ý: Chạy lệnh verify thay vì test
+      - name: Kiem tra do bao phu code (Verify Coverage)
+        run: mvn -B clean verify
+
+      # Upload Artifact chứa báo cáo của JaCoCo
+      - name: Luu tru bao cao JaCoCo
+        if: always() # Luôn lưu báo cáo dù test fail hay pass để còn xem code thiếu ở đâu
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: Bai05/target/site/jacoco/

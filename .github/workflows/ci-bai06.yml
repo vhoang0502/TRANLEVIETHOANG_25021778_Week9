@@ -1,0 +1,30 @@
+name: CI/CD Bai 06 (Maven Caching)
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Bai06/**'
+      - '.github/workflows/ci-bai06.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Bai06
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Cach Caching)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+          cache: 'maven'
+
+      - name: Chay Maven Build
+        run: mvn -B clean test

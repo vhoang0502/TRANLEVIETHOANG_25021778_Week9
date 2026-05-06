@@ -9,4 +9,10 @@ public class StringCheckTest {
         StringCheck checker = new StringCheck();
         assertTrue(checker.isPalindrome("madam"));
     }
+
+    @Test
+    public void testIsLongString() {
+        StringCheck checker = new StringCheck();
+        assertTrue(checker.isLongString("chuoinaydaidien"));
+    }
 }

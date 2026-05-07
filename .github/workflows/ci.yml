@@ -1,0 +1,25 @@
+name: CI/CD Bai 10
+
+on:
+  push:
+    paths:
+      - 'Bai10/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - 'Bai10/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        working-directory: ./Bai10
+        run: mvn package
